@@ -118,6 +118,7 @@ import { h, Fragment } from 'astro/dist/internal/h.js';
 const __astroRequestSymbol = Symbol('astro.request');
 async function __render(props, ...children) {
   const Astro = {
+    props: () => props,
     request: props[__astroRequestSymbol] || {},
     site: new URL('/', ${JSON.stringify(site)}),
   };
