@@ -116,10 +116,11 @@ ${result.imports.join('\n')}
 // \`__render()\`: Render the contents of the Astro module.
 import { h, Fragment } from 'astro/dist/internal/h.js';
 const __astroRequestSymbol = Symbol('astro.request');
-async function __render(props, ...children) {
+async function __render(_props, ...children) {
+  const { [__astroRequestSymbol]: request = {}, ...props } = _props;
   const Astro = {
-    props: () => props,
-    request: props[__astroRequestSymbol] || {},
+    props,
+    request,
     site: new URL('/', ${JSON.stringify(site)}),
   };
 
@@ -153,7 +154,11 @@ export async function __renderPage({request, children, props}) {
   }
 
   return childBodyResult;
-};\n`;
+};
+
+${result.exports.join('\n')}
+
+`;
 
   return {
     result,
